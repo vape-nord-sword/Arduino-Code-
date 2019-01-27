@@ -1,0 +1,52 @@
+#include <Servo.h>
+
+Servo servoX, servoY, servoZ;
+
+#define pinoServoX 3
+#define pinoServoY 5
+#define pinoServoZ 9
+
+#define pinoJoystickX A0
+#define pinoJoystickY A1
+#define pinoJoystickZ 7
+
+int joystickX = 0;
+int joystickY = 0;
+int joystickZ = 0;
+
+void setup() {
+  servoX.attach(pinoServoX);
+  servoY.attach(pinoServoY);
+  servoZ.attach(pinoServoZ);
+
+  pinMode(pinoJoystickZ, 0);
+  digitalWrite(pinoJoystickZ, 1);
+  servoX.write(90);
+  servoY.write(90);
+  servoZ.write(90); // might be servoY
+  Serial.begin(9600);
+}
+
+void loop() {
+
+  joystickX = analogRead(pinoJoystickX);
+  joystickY = analogRead(pinoJoystickY);
+  joystickZ = digitalRead(pinoJoystickZ);
+
+  Serial.print("X: ");
+  Serial.print(joystickX);
+  Serial.print("Y: ");
+  Serial.print(joystickY);
+  Serial.print("Z: ");
+  Serial.println(joystickZ);
+
+  joystickX = map(joystickX, 0, 1023, 0, 180);
+  joystickY = map(joystickY, 0, 1023, 0, 180);
+  joystickZ = map(joystickZ, 0, 1, 0, 180);
+
+  servoX.write(joystickX);
+  servoY.write(joystickY);
+  servoZ.write(joystickZ);
+
+  delay(20);
+}
