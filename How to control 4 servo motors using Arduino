@@ -13,6 +13,7 @@ Servo servoX, servoY2, servoY, servoZ;
 
 int joystickX = 0;
 int joystickY = 0;
+int joystickY2 = 0;
 int joystickZ = 0;
 
 void setup() {
@@ -33,6 +34,7 @@ void loop() {
 
   joystickX = analogRead(pinoJoystickX);
   joystickY = analogRead(pinoJoystickY);
+  joystickY2 = analogRead(pinoJoystickY);
   joystickZ = digitalRead(pinoJoystickZ);
 
   Serial.print("X: ");
@@ -44,11 +46,12 @@ void loop() {
 
   joystickX = map(joystickX, 0, 1023, 0, 180);
   joystickY = map(joystickY, 0, 1023, 0, 180);
+  joystickY2 = map(joystickY2, 0, 1023, 180, 0);
   joystickZ = map(joystickZ, 0, 1, 0, 180);
 
   servoX.write(joystickX);
   servoY.write(joystickY);
-  servoY2.write(joystickY);
+  servoY2.write(joystickY2);
   servoZ.write(joystickZ);
 
   delay(20);
